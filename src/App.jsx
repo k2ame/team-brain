@@ -25,6 +25,13 @@ const GLASS_BRONZE = { ...GLASS, background: 'rgba(173,138,63,0.75)' };
 const GLASS_INK = { ...GLASS, background: 'rgba(16,24,43,0.75)' };
 const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
 
+const FRAMEWORKS = [
+  { label: 'Companies Act, 2015', footerLabel: 'Companies Act, 2015', href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/' },
+  { label: 'CMA Corporate Governance Code', footerLabel: 'CMA Code of Corporate Governance', href: 'https://www.cma.or.ke/corporate-governance/' },
+  { label: 'Mwongozo Code', footerLabel: 'Mwongozo Code (State Corporations)', href: 'https://www.scac.go.ke/sites/default/files/2023-11/MWONGOZOCODEOFGOVERNANCE.pdf' },
+  { label: 'Data Protection Act, 2019', footerLabel: 'Data Protection Act, 2019', href: 'https://new.kenyalaw.org/akn/ke/act/2019/24/' },
+];
+
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
@@ -145,10 +152,11 @@ function Footer({ setActive }) {
         <div>
           <p className="font-mono text-xs mb-3 tracking-wider" style={{ color: COLORS.bronze }}>FRAMEWORKS WE WORK WITHIN</p>
           <ul className="space-y-1 text-xs" style={{ color: COLORS.slate }}>
-            <li>Companies Act, 2015</li>
-            <li>CMA Code of Corporate Governance</li>
-            <li>Mwongozo Code (State Corporations)</li>
-            <li>Data Protection Act, 2019</li>
+            {FRAMEWORKS.map(f => (
+              <li key={f.footerLabel}>
+                <a href={f.href} target="_blank" rel="noopener noreferrer" className="hover:underline">{f.footerLabel}</a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -167,7 +175,6 @@ function HomePage({ setActive }) {
     { icon: Users, title: 'Board Effectiveness', desc: 'Evaluations and structured feedback that turn board meetings into real oversight.' },
     { icon: FileCheck, title: 'Regulatory & Compliance', desc: 'Practical alignment with the Companies Act, CMA Code, and sector regulation.' },
   ];
-  const frameworks = ['Companies Act, 2015', 'CMA Corporate Governance Code', 'Mwongozo Code', 'Data Protection Act, 2019'];
   const pillars = [
     { title: 'Independent, not incentivized', desc: 'We hold no audit or legal referral arrangements that could shape a recommendation.' },
     { title: 'Grounded in the codes that govern you', desc: 'Every recommendation is traceable to a specific statute, code, or regulatory guidance.' },
@@ -207,8 +214,18 @@ function HomePage({ setActive }) {
       <section style={{ background: COLORS.paper, borderBottom: `1px solid ${COLORS.bone}` }}>
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-wrap items-center gap-x-8 gap-y-3">
           <span className="font-mono text-xs tracking-wider" style={{ color: COLORS.slate }}>WE WORK WITHIN</span>
-          {frameworks.map(f => (
-            <span key={f} className="font-body text-sm px-3 py-1 rounded-full border" style={{ borderColor: COLORS.bone, color: COLORS.charcoal }}>{f}</span>
+          {FRAMEWORKS.map(f => (
+            <a
+              key={f.label}
+              href={f.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-sm px-3 py-1 rounded-full border transition-colors hover:underline"
+              style={{ borderColor: COLORS.bone, color: COLORS.charcoal }}
+              title={`Read the ${f.label}`}
+            >
+              {f.label}
+            </a>
           ))}
         </div>
       </section>

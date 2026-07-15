@@ -25,6 +25,10 @@ const GLASS_BRONZE = { ...GLASS, background: 'rgba(173,138,63,0.75)' };
 const GLASS_INK = { ...GLASS, background: 'rgba(16,24,43,0.75)' };
 const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
 
+// Inquiries are delivered by formsubmit.co to this address. The first
+// submission triggers a one-time activation email to it.
+const INQUIRY_ENDPOINT = 'https://formsubmit.co/ajax/malckermorexxsnowy@gmail.com';
+
 const FRAMEWORKS = [
   { label: 'Companies Act, 2015', footerLabel: 'Companies Act, 2015', href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/' },
   { label: 'CMA Corporate Governance Code', footerLabel: 'CMA Code of Corporate Governance', href: 'https://www.cma.or.ke/corporate-governance/' },
@@ -414,11 +418,29 @@ function TestimonialsPage() {
 
 function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', organization: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSent(true);
+    setStatus('sending');
+    try {
+      const res = await fetch(INQUIRY_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `New inquiry from ${form.name} (${form.organization || 'no organization'})`,
+          _template: 'table',
+          name: form.name,
+          email: form.email,
+          organization: form.organization,
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      setStatus(res.ok && data.success !== 'false' ? 'sent' : 'error');
+    } catch {
+      setStatus('error');
+    }
   };
 
   const field = (key, label, type = 'text') => (
@@ -428,6 +450,7 @@ function ContactPage() {
         <textarea
           rows={5}
           value={form[key]}
+          required
           onChange={e => setForm({ ...form, [key]: e.target.value })}
           className="w-full px-4 py-3 font-body text-sm rounded-sm border focus:outline-none"
           style={{ borderColor: COLORS.bone, color: COLORS.charcoal, background: '#fff' }}
@@ -436,6 +459,7 @@ function ContactPage() {
         <input
           type={type}
           value={form[key]}
+          required={key !== 'organization'}
           onChange={e => setForm({ ...form, [key]: e.target.value })}
           className="w-full px-4 py-3 font-body text-sm rounded-sm border focus:outline-none"
           style={{ borderColor: COLORS.bone, color: COLORS.charcoal, background: '#fff' }}
@@ -452,10 +476,10 @@ function ContactPage() {
           <p className="font-body text-base mb-8" style={{ color: COLORS.slate }}>
             Tell us about your board or institution and what prompted the inquiry. We reply within two business days with next steps.
           </p>
-          {sent ? (
+          {status === 'sent' ? (
             <div className="p-6 border rounded-sm flex items-center gap-3" style={{ borderColor: COLORS.bronze }}>
               <CheckCircle2 style={{ color: COLORS.bronzeDeep }} />
-              <p className="font-body text-sm" style={{ color: COLORS.charcoal }}>Thank you — this is a template form. Connect it to your email or CRM before publishing.</p>
+              <p className="font-body text-sm" style={{ color: COLORS.charcoal }}>Thank you — your inquiry has been sent. We reply within two business days.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -463,9 +487,14 @@ function ContactPage() {
               {field('email', 'Email', 'email')}
               {field('organization', 'Organization')}
               {field('message', 'Message', 'textarea')}
-              <button type="submit" className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
-                Send Inquiry <ArrowRight size={16} />
+              <button type="submit" disabled={status === 'sending'} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm disabled:opacity-60" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
+                {status === 'sending' ? 'Sending…' : 'Send Inquiry'} <ArrowRight size={16} />
               </button>
+              {status === 'error' && (
+                <p className="font-body text-sm mt-4" style={{ color: '#B3261E' }}>
+                  Something went wrong sending your inquiry. Please try again, or email us directly at hello@governaxisadvisory.co.ke.
+                </p>
+              )}
             </form>
           )}
         </div>

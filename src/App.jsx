@@ -148,7 +148,7 @@ function Footer({ setActive }) {
           <p className="font-mono text-xs mb-3 tracking-wider" style={{ color: COLORS.bronze }}>CONTACT</p>
           <ul className="space-y-2 text-sm" style={{ color: COLORS.bone }}>
             <li className="flex items-center gap-2"><MapPin size={14} /> Nairobi, Kenya</li>
-            <li className="flex items-center gap-2"><Mail size={14} /> hello@governaxisadvisory.co.ke</li>
+            <li className="flex items-center gap-2"><Mail size={14} /> kathryne@governaxisadvisory.com</li>
             <li className="flex items-center gap-2"><Phone size={14} /> +254 7XX XXX XXX</li>
           </ul>
         </div>
@@ -486,7 +486,7 @@ function ContactPage() {
           <div className="p-6 border rounded-sm" style={{ borderColor: COLORS.bone }}>
             <Mail style={{ color: COLORS.bronzeDeep }} className="mb-3" />
             <p className="font-mono text-xs mb-1" style={{ color: COLORS.slate }}>EMAIL</p>
-            <p className="font-body text-sm" style={{ color: COLORS.charcoal }}>hello@governaxisadvisory.co.ke</p>
+            <p className="font-body text-sm" style={{ color: COLORS.charcoal }}>kathryne@governaxisadvisory.com</p>
           </div>
           <div className="p-6 border rounded-sm" style={{ borderColor: COLORS.bone }}>
             <Phone style={{ color: COLORS.bronzeDeep }} className="mb-3" />

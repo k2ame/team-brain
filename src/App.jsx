@@ -14,6 +14,17 @@ const COLORS = {
   slate: '#5B6272',
 };
 
+const GLASS = {
+  backdropFilter: 'blur(12px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.35)',
+  boxShadow: '0 4px 24px rgba(16,24,43,0.18), inset 0 1px 0 rgba(255,255,255,0.35)',
+};
+
+const GLASS_BRONZE = { ...GLASS, background: 'rgba(173,138,63,0.75)' };
+const GLASS_INK = { ...GLASS, background: 'rgba(16,24,43,0.75)' };
+const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
+
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
@@ -71,7 +82,7 @@ function NavBar({ active, setActive, mobileOpen, setMobileOpen }) {
         <button
           onClick={() => setActive('contact')}
           className="hidden md:inline-flex items-center gap-2 font-body text-sm px-4 py-2 rounded-sm"
-          style={{ background: COLORS.bronze, color: COLORS.ink }}
+          style={{ ...GLASS_BRONZE, color: COLORS.ink }}
         >
           Book a Consultation <ArrowRight size={14} />
         </button>
@@ -183,10 +194,10 @@ function HomePage({ setActive }) {
             We help boards, executives, and public institutions design governance structures that hold up under pressure: clear mandates, accountable oversight, and decisions that survive scrutiny.
           </p>
           <div className="flex flex-wrap gap-4 mt-10">
-            <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ background: COLORS.bronze, color: COLORS.ink }}>
+            <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
               Book a Governance Review <ArrowRight size={16} />
             </button>
-            <button onClick={() => setActive('services')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm border" style={{ borderColor: COLORS.bone, color: COLORS.paper }}>
+            <button onClick={() => setActive('services')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_CLEAR, color: COLORS.paper }}>
               View Our Services
             </button>
           </div>
@@ -237,7 +248,7 @@ function HomePage({ setActive }) {
       <section style={{ background: COLORS.bronze }} className="py-14">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <h2 className="font-display text-2xl md:text-3xl" style={{ color: COLORS.ink }}>Start with a governance review.</h2>
-          <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ background: COLORS.ink, color: COLORS.paper }}>
+          <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_INK, color: COLORS.paper }}>
             Get in Touch <ArrowRight size={16} />
           </button>
         </div>
@@ -319,7 +330,7 @@ function ServicesPage({ setActive }) {
       <div style={{ background: COLORS.ink }} className="py-14">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="font-body text-lg max-w-xl" style={{ color: COLORS.paper }}>Engagements run project-based or on retainer, scoped after an initial diagnostic call.</p>
-          <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm whitespace-nowrap" style={{ background: COLORS.bronze, color: COLORS.ink }}>
+          <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm whitespace-nowrap" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
             Discuss Your Scope <ArrowRight size={16} />
           </button>
         </div>
@@ -435,7 +446,7 @@ function ContactPage() {
               {field('email', 'Email', 'email')}
               {field('organization', 'Organization')}
               {field('message', 'Message', 'textarea')}
-              <button type="submit" className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ background: COLORS.bronze, color: COLORS.ink }}>
+              <button type="submit" className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
                 Send Inquiry <ArrowRight size={16} />
               </button>
             </form>
@@ -483,7 +494,8 @@ export default function App() {
         .font-display { font-family: 'Fraunces', serif; }
         .font-body { font-family: 'IBM Plex Sans', sans-serif; }
         .font-mono { font-family: 'IBM Plex Mono', monospace; }
-        button { cursor: pointer; }
+        button { cursor: pointer; transition: box-shadow 0.2s ease, background 0.2s ease; }
+        button:hover { filter: brightness(1.08); }
         *:focus-visible { outline: 2px solid ${COLORS.bronze}; outline-offset: 2px; }
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
       `}</style>

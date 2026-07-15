@@ -88,6 +88,76 @@ const FRAMEWORKS = [
   },
 ];
 
+// Shown on the Regulations page only (the four FRAMEWORKS above remain the
+// headline instruments on the home strip and footer).
+const ADDITIONAL_REGULATIONS = [
+  {
+    label: 'Capital Markets Act',
+    href: 'https://new.kenyalaw.org/akn/ke/act/1989/17/',
+    issuer: 'Republic of Kenya — Chapter 485A',
+    appliesTo: 'Capital markets participants, issuers, and licensed persons',
+    summary: 'The parent statute of Kenya\u2019s capital markets. It establishes the Capital Markets Authority and gives it power to license, regulate, and supervise market players — the legal foundation under which the CMA Corporate Governance Code is issued.',
+    points: [
+      'Establishment and powers of the Capital Markets Authority.',
+      'Licensing and conduct of stockbrokers, dealers, fund managers, and other market intermediaries.',
+      'Regulation of public offers of securities and continuing disclosure obligations.',
+      'Enforcement powers, investor protection, and sanctions for market misconduct.',
+    ],
+  },
+  {
+    label: 'State Corporations Act',
+    href: 'https://new.kenyalaw.org/akn/ke/act/1986/11/',
+    issuer: 'Republic of Kenya — Chapter 446',
+    appliesTo: 'State corporations and their boards',
+    summary: 'The statute governing the establishment and control of state corporations. It defines how parastatals are created, how their boards are appointed, and how government exercises oversight — the statutory backbone that the Mwongozo Code builds on.',
+    points: [
+      'Establishment, powers, and dissolution of state corporations.',
+      'Appointment and responsibilities of boards and chief executives.',
+      'Financial control: budgets, audits, and reporting to the responsible minister.',
+      'Role of the State Corporations Advisory Committee and the Inspector-General.',
+    ],
+  },
+  {
+    label: 'Public Finance Management Act, 2012',
+    href: 'https://new.kenyalaw.org/akn/ke/act/2012/18/',
+    issuer: 'Republic of Kenya — Act No. 18 of 2012',
+    appliesTo: 'National and county government entities and public bodies',
+    summary: 'The framework for how public money is planned, spent, and accounted for. For boards of public institutions, it defines fiscal responsibility, procurement discipline, and the accounting officer\u2019s accountability for public resources.',
+    points: [
+      'Principles of fiscal responsibility and prudent management of public funds.',
+      'Duties of accounting officers and consequences for financial misconduct.',
+      'Budget preparation, execution, and reporting requirements.',
+      'Oversight roles of the National Treasury, Controller of Budget, and Auditor-General.',
+    ],
+  },
+  {
+    label: 'Leadership and Integrity Act, 2012',
+    href: 'https://new.kenyalaw.org/akn/ke/act/2012/19/',
+    issuer: 'Republic of Kenya — Act No. 19 of 2012',
+    appliesTo: 'State officers and public officers',
+    summary: 'Gives effect to Chapter Six of the Constitution on leadership and integrity. It sets the ethical standard for anyone holding public office — a core reference when we advise on board ethics and conduct in public institutions.',
+    points: [
+      'General leadership and integrity code binding on state officers.',
+      'Rules on conflicts of interest, gifts, and use of public resources.',
+      'Financial probity, including declarations and restrictions on bank accounts outside Kenya.',
+      'Enforcement through the Ethics and Anti-Corruption Commission.',
+    ],
+  },
+  {
+    label: 'Anti-Corruption and Economic Crimes Act, 2003',
+    href: 'https://new.kenyalaw.org/akn/ke/act/2003/3/',
+    issuer: 'Republic of Kenya — Act No. 3 of 2003',
+    appliesTo: 'All persons, with specific duties on public officers and institutions',
+    summary: 'Kenya\u2019s principal anti-corruption statute. It defines corruption and economic crimes and provides for their investigation and punishment — directly relevant to the fraud, bribery, and whistle-blowing controls we help boards design.',
+    points: [
+      'Definitions of corruption, bribery, and economic crimes.',
+      'Investigation powers and special anti-corruption courts.',
+      'Compensation and recovery of corruptly acquired assets.',
+      'Protection of informers and duties to report corrupt conduct.',
+    ],
+  },
+];
+
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
@@ -419,11 +489,11 @@ function RegulationsPage({ setActive }) {
       <ArticleHeader eyebrow="ARTICLE VI — REGULATIONS" title="The frameworks we work within." />
       <div className="max-w-6xl mx-auto px-6 pb-10">
         <p className="font-body text-lg max-w-3xl" style={{ color: COLORS.slate }}>
-          Every recommendation we make is traceable to a specific statute, code, or regulatory guidance. These are the four instruments at the core of our advisory work — what each one covers, who it applies to, and where to read the official text.
+          Every recommendation we make is traceable to a specific statute, code, or regulatory guidance. These are the instruments at the core of our advisory work — what each one covers, who it applies to, and where to read the official text.
         </p>
       </div>
       <div className="max-w-6xl mx-auto px-6 pb-16 space-y-8">
-        {FRAMEWORKS.map(f => (
+        {[...FRAMEWORKS, ...ADDITIONAL_REGULATIONS].map(f => (
           <div key={f.label} className="p-8 border rounded-sm" style={{ borderColor: COLORS.bone, background: '#fff' }}>
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">

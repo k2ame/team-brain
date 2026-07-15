@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Menu, X, ArrowRight, Shield, Users, FileCheck, Leaf, Landmark,
-  GraduationCap, Mail, Phone, MapPin, Quote, CheckCircle2,
+  GraduationCap, Mail, Phone, MapPin, Quote, CheckCircle2, ExternalLink, Scale,
 } from 'lucide-react';
 
 const COLORS = {
@@ -30,16 +30,69 @@ const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
 const INQUIRY_ENDPOINT = 'https://formsubmit.co/kathryne@governaxisadvisory.com';
 
 const FRAMEWORKS = [
-  { label: 'Companies Act, 2015', footerLabel: 'Companies Act, 2015', href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/' },
-  { label: 'CMA Corporate Governance Code', footerLabel: 'CMA Code of Corporate Governance', href: 'https://www.cma.or.ke/corporate-governance/' },
-  { label: 'Mwongozo Code', footerLabel: 'Mwongozo Code (State Corporations)', href: 'https://www.scac.go.ke/sites/default/files/2023-11/MWONGOZOCODEOFGOVERNANCE.pdf' },
-  { label: 'Data Protection Act, 2019', footerLabel: 'Data Protection Act, 2019', href: 'https://new.kenyalaw.org/akn/ke/act/2019/24/' },
+  {
+    label: 'Companies Act, 2015',
+    footerLabel: 'Companies Act, 2015',
+    href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/',
+    issuer: 'Republic of Kenya — Act No. 17 of 2015',
+    appliesTo: 'All companies incorporated or registered in Kenya',
+    summary: 'The principal statute governing companies in Kenya. It sets out how companies are formed, run, and wound up — including directors\u2019 duties, shareholder rights, financial reporting, and the responsibilities of company officers.',
+    points: [
+      'Directors\u2019 statutory duties: acting within powers, promoting the success of the company, exercising independent judgment, and avoiding conflicts of interest.',
+      'Requirements for board composition, company secretaries, and keeping of statutory registers.',
+      'Shareholder rights, general meetings, and disclosure obligations.',
+      'Financial statements, audit requirements, and annual returns.',
+    ],
+  },
+  {
+    label: 'CMA Corporate Governance Code',
+    footerLabel: 'CMA Code of Corporate Governance',
+    href: 'https://www.cma.or.ke/corporate-governance/',
+    issuer: 'Capital Markets Authority (CMA), 2015',
+    appliesTo: 'Issuers of securities to the public and listed companies',
+    summary: 'The Code of Corporate Governance Practices for Issuers of Securities to the Public. It applies an \u201capply or explain\u201d approach: boards must apply its principles or publicly explain why they have not.',
+    points: [
+      'Board composition: mix of skills, independence, and separation of Chair and CEO roles.',
+      'Regular board and director evaluations, with results disclosed.',
+      'Audit, risk, and governance committees with clear terms of reference.',
+      'Ethics, transparency, and accountability to shareholders and stakeholders.',
+    ],
+  },
+  {
+    label: 'Mwongozo Code',
+    footerLabel: 'Mwongozo Code (State Corporations)',
+    href: 'https://www.scac.go.ke/sites/default/files/2023-11/MWONGOZOCODEOFGOVERNANCE.pdf',
+    issuer: 'State Corporations Advisory Committee & Public Service Commission',
+    appliesTo: 'State corporations and public institutions',
+    summary: 'Mwongozo — the Code of Governance for State Corporations — guides how boards of Kenyan public institutions exercise oversight, manage public resources, and stay accountable to citizens.',
+    points: [
+      'Board effectiveness: composition, induction, evaluation, and succession in state corporations.',
+      'Accountability, risk management, and internal controls over public resources.',
+      'Ethics and good corporate citizenship in the public sector.',
+      'Stakeholder engagement and transparent reporting.',
+    ],
+  },
+  {
+    label: 'Data Protection Act, 2019',
+    footerLabel: 'Data Protection Act, 2019',
+    href: 'https://new.kenyalaw.org/akn/ke/act/2019/24/',
+    issuer: 'Republic of Kenya — Act No. 24 of 2019',
+    appliesTo: 'Any organization processing personal data of people in Kenya',
+    summary: 'Kenya\u2019s data privacy law, giving effect to Article 31 of the Constitution. It regulates how organizations collect, store, and use personal data, and establishes the Office of the Data Protection Commissioner.',
+    points: [
+      'Principles of lawful, fair, and transparent processing of personal data.',
+      'Registration of data controllers and processors with the Commissioner.',
+      'Data subjects\u2019 rights: access, correction, deletion, and objection.',
+      'Breach notification duties and restrictions on transferring data outside Kenya.',
+    ],
+  },
 ];
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'services', label: 'Services' },
+  { id: 'regulations', label: 'Regulations' },
   { id: 'team', label: 'Team' },
   { id: 'testimonials', label: 'Testimonials' },
 ];
@@ -360,6 +413,62 @@ function ServicesPage({ setActive }) {
   );
 }
 
+function RegulationsPage({ setActive }) {
+  return (
+    <div style={{ background: COLORS.paper }}>
+      <ArticleHeader eyebrow="ARTICLE VI — REGULATIONS" title="The frameworks we work within." />
+      <div className="max-w-6xl mx-auto px-6 pb-10">
+        <p className="font-body text-lg max-w-3xl" style={{ color: COLORS.slate }}>
+          Every recommendation we make is traceable to a specific statute, code, or regulatory guidance. These are the four instruments at the core of our advisory work — what each one covers, who it applies to, and where to read the official text.
+        </p>
+      </div>
+      <div className="max-w-6xl mx-auto px-6 pb-16 space-y-8">
+        {FRAMEWORKS.map(f => (
+          <div key={f.label} className="p-8 border rounded-sm" style={{ borderColor: COLORS.bone, background: '#fff' }}>
+            <div className="flex items-start justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <Scale size={26} style={{ color: COLORS.bronzeDeep }} />
+                <h2 className="font-display text-2xl" style={{ color: COLORS.charcoal }}>{f.label}</h2>
+              </div>
+              <a
+                href={f.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-body text-sm px-4 py-2 rounded-sm"
+                style={{ ...GLASS_BRONZE, color: COLORS.ink }}
+              >
+                Read the official text <ExternalLink size={14} />
+              </a>
+            </div>
+            <div className="grid md:grid-cols-2 gap-x-10 gap-y-2 mt-4 mb-4">
+              <p className="font-mono text-xs" style={{ color: COLORS.slate }}>ISSUED BY — {f.issuer}</p>
+              <p className="font-mono text-xs" style={{ color: COLORS.slate }}>APPLIES TO — {f.appliesTo}</p>
+            </div>
+            <p className="font-body text-sm mb-5 max-w-3xl" style={{ color: COLORS.charcoal }}>{f.summary}</p>
+            <p className="font-mono text-xs tracking-wider mb-3" style={{ color: COLORS.bronzeDeep }}>WHAT IT COVERS</p>
+            <ul className="space-y-2">
+              {f.points.map(p => (
+                <li key={p} className="flex items-start gap-2 font-body text-sm" style={{ color: COLORS.slate }}>
+                  <CheckCircle2 size={16} style={{ color: COLORS.bronze, flexShrink: 0, marginTop: 2 }} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div style={{ background: COLORS.ink }} className="py-14">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="font-body text-lg max-w-xl" style={{ color: COLORS.paper }}>Not sure which of these apply to your institution? We can map your obligations in an initial diagnostic call.</p>
+          <button onClick={() => setActive('contact')} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm whitespace-nowrap" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
+            Get in Touch <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TeamPage() {
   const team = [
     { name: 'Amara Otieno', role: 'Managing Partner', bio: 'Leads corporate governance and board effectiveness engagements across financial services and manufacturing.' },
@@ -507,6 +616,7 @@ export default function App() {
     home: <HomePage setActive={setActive} />,
     about: <AboutPage />,
     services: <ServicesPage setActive={setActive} />,
+    regulations: <RegulationsPage setActive={setActive} />,
     team: <TeamPage />,
     testimonials: <TestimonialsPage />,
     contact: <ContactPage />,

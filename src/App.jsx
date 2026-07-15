@@ -27,7 +27,7 @@ const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
 
 // Inquiries are delivered by formsubmit.co to this address. The first
 // submission triggers a one-time activation email to it.
-const INQUIRY_ENDPOINT = 'https://formsubmit.co/ajax/malckermorexxsnowy@gmail.com';
+const INQUIRY_ENDPOINT = 'https://formsubmit.co/malckermorexxsnowy@gmail.com';
 
 const FRAMEWORKS = [
   { label: 'Companies Act, 2015', footerLabel: 'Companies Act, 2015', href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/' },
@@ -418,30 +418,8 @@ function TestimonialsPage() {
 
 function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', organization: '', message: '' });
-  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('sending');
-    try {
-      const res = await fetch(INQUIRY_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: `New inquiry from ${form.name} (${form.organization || 'no organization'})`,
-          _template: 'table',
-          name: form.name,
-          email: form.email,
-          organization: form.organization,
-          message: form.message,
-        }),
-      });
-      const data = await res.json();
-      setStatus(res.ok && data.success !== 'false' ? 'sent' : 'error');
-    } catch {
-      setStatus('error');
-    }
-  };
+  const sent = new URLSearchParams(window.location.search).has('sent');
+  const returnUrl = `${window.location.origin}${window.location.pathname}?sent=1`;
 
   const field = (key, label, type = 'text') => (
     <div className="mb-5">
@@ -449,6 +427,7 @@ function ContactPage() {
       {type === 'textarea' ? (
         <textarea
           rows={5}
+          name={key}
           value={form[key]}
           required
           onChange={e => setForm({ ...form, [key]: e.target.value })}
@@ -458,6 +437,7 @@ function ContactPage() {
       ) : (
         <input
           type={type}
+          name={key}
           value={form[key]}
           required={key !== 'organization'}
           onChange={e => setForm({ ...form, [key]: e.target.value })}
@@ -476,25 +456,23 @@ function ContactPage() {
           <p className="font-body text-base mb-8" style={{ color: COLORS.slate }}>
             Tell us about your board or institution and what prompted the inquiry. We reply within two business days with next steps.
           </p>
-          {status === 'sent' ? (
+          {sent ? (
             <div className="p-6 border rounded-sm flex items-center gap-3" style={{ borderColor: COLORS.bronze }}>
               <CheckCircle2 style={{ color: COLORS.bronzeDeep }} />
               <p className="font-body text-sm" style={{ color: COLORS.charcoal }}>Thank you — your inquiry has been sent. We reply within two business days.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form action={INQUIRY_ENDPOINT} method="POST">
+              <input type="hidden" name="_subject" value="New inquiry — Governaxis Advisory website" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value={returnUrl} />
               {field('name', 'Full Name')}
               {field('email', 'Email', 'email')}
               {field('organization', 'Organization')}
               {field('message', 'Message', 'textarea')}
-              <button type="submit" disabled={status === 'sending'} className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm disabled:opacity-60" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
-                {status === 'sending' ? 'Sending…' : 'Send Inquiry'} <ArrowRight size={16} />
+              <button type="submit" className="inline-flex items-center gap-2 font-body px-6 py-3 rounded-sm" style={{ ...GLASS_BRONZE, color: COLORS.ink }}>
+                Send Inquiry <ArrowRight size={16} />
               </button>
-              {status === 'error' && (
-                <p className="font-body text-sm mt-4" style={{ color: '#B3261E' }}>
-                  Something went wrong sending your inquiry. Please try again, or email us directly at hello@governaxisadvisory.co.ke.
-                </p>
-              )}
             </form>
           )}
         </div>
@@ -521,7 +499,7 @@ function ContactPage() {
 }
 
 export default function App() {
-  const [active, setActive] = useState('home');
+  const [active, setActive] = useState(() => (new URLSearchParams(window.location.search).has('sent') ? 'contact' : 'home'));
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const pages = {

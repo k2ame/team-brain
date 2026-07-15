@@ -27,7 +27,7 @@ const GLASS_CLEAR = { ...GLASS, background: 'rgba(255,255,255,0.12)' };
 
 // Inquiries are delivered by formsubmit.co to this address. The first
 // submission triggers a one-time activation email to it.
-const INQUIRY_ENDPOINT = 'https://formsubmit.co/malckermorexxsnowy@gmail.com';
+const INQUIRY_ENDPOINT = 'https://formsubmit.co/kathryne@governaxisadvisory.com';
 
 const FRAMEWORKS = [
   { label: 'Companies Act, 2015', footerLabel: 'Companies Act, 2015', href: 'https://new.kenyalaw.org/akn/ke/act/2015/17/' },

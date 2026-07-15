@@ -464,6 +464,7 @@ function ContactPage() {
           ) : (
             <form action={INQUIRY_ENDPOINT} method="POST">
               <input type="hidden" name="_subject" value="New inquiry — Governaxis Advisory website" />
+              <input type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: 'none' }} />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_next" value={returnUrl} />
               {field('name', 'Full Name')}
